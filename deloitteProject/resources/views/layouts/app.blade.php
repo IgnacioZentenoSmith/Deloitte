@@ -82,27 +82,27 @@
                             </li>
                         @endif --}}
 
-
-                        <li class="nav-item mx-2">
-                            <a class="nav-link" href="">
+                        @if(in_array(1, $permisos))
+                        <li class="nav-item mx-2 {{ (request()->is('/')) ? 'active' : '' }}">
+                            <a class="nav-link" href="{{route('home.index')}}">
                                 <span style="font-size: 1.5em;">
                                     <i class="fas fa-home"></i>
                                 </span><br>
                                 Home
                             </a>
                         </li>
+                        @endif
 
-                        <li class="nav-item mx-2">
-                            <a class="nav-link" href="">
+                        @if(in_array(2, $permisos))
+                        <li class="nav-item mx-2 {{ (request()->is('admin*')) ? 'active' : '' }}">
+                            <a class="nav-link" href="{{route('admin.index')}}">
                                 <span style="font-size: 1.5em;">
                                     <i class="fas fa-shield-alt"></i>
                                 </span><br>
                                 Admin
                             </a>
                         </li>
-
-
-
+                        @endif
 
                     @endguest
                     </ul>
@@ -117,7 +117,7 @@
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                <i class="fas fa-user"></i> --Usuario-- <span class="caret"></span>
+                                <i class="fas fa-user"></i> {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
@@ -134,6 +134,7 @@
                     </ul>
             </div>
         </nav>
+        @include('flashMessages')
 
     <main class="py-4 my-4 d-flex align-items-center">
         <div class="container-fluid">
@@ -144,16 +145,8 @@
                     <!-- NO ESTA DENTRO DEL SISTEMA -->
                     @yield('content')
                 @else
-
                     <!-- ESTA DENTRO DEL SISTEMA -->
-                    {{-- @if (Auth::user() && Auth::user()->status == 'Inactivo')
-                        <div class="alert alert-danger text-center shadow" role="alert">
-                            <p class="font-weight-bold">Usted es un usuario inactivo de nuestro sistema, contáctese con un administrador para que sea activado.</p>
-                        </div>
-                    @elseif (Auth::user() && Auth::user()->status == 'Activo')
-                        @yield('content')
-                    @endif --}}
-
+                    @yield('content')
                 @endguest
 
                 </div>
