@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+//Traer modelos
+use App\Menu_user;
+//Usuario conectado en esta sesion
+use Auth;
 
 class HomeController extends Controller
 {
@@ -23,6 +27,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $permisos = $this->getPermisos();
+        return view('home.index', compact('permisos'));
+    }
+
+    private function getPermisos() {
+        $permisos = Menu_user::where('users_id', Auth::user()->id)->get();
+        $permisos = $permisos->pluck('menus_id')->toArray();
+        return $permisos;
     }
 }
