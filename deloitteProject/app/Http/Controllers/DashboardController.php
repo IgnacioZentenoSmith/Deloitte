@@ -2,7 +2,18 @@
 
 namespace App\Http\Controllers;
 
+//Componentes Laravel
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+//Traer modelos
+use App\User;
+use App\Role;
+use App\Menu;
+use App\Menu_user;
+//Usuario conectado en esta sesion
+use Auth;
 
 class DashboardController extends Controller
 {
@@ -13,7 +24,8 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        //
+        $permisos = $this->getPermisos();
+        return view('dashboard.index', compact('permisos'));
     }
 
     /**
@@ -80,5 +92,11 @@ class DashboardController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    private function getPermisos() {
+        $permisos = Menu_user::where('users_id', Auth::user()->id)->get();
+        $permisos = $permisos->pluck('menus_id')->toArray();
+        return $permisos;
     }
 }
