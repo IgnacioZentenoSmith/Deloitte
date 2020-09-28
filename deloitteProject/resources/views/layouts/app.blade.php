@@ -104,7 +104,7 @@
                         </li>
                         @endif
 
-                        @if(in_array(2, $permisos))
+                        @if(in_array(10, $permisos))
                         <li class="nav-item mx-2 {{ (request()->is('dashboard*')) ? 'active' : '' }}">
                             <a class="nav-link" href="{{route('dashboard.index')}}">
                                 <span style="font-size: 1.5em;">

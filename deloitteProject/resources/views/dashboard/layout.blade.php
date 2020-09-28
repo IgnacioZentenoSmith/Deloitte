@@ -5,7 +5,7 @@
   <div class="card-header">
     <ul class="nav nav-tabs card-header-tabs">
 
-    @if(in_array(5, $permisos))
+    @if(in_array(11, $permisos))
       <li class="nav-item">
         <a class="nav-link {{ (request()->is('dashboard')) ? 'active' : '' }}" href="{{route('dashboard.index')}}">Dashboard</a>
       </li>
