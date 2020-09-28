@@ -26,4 +26,13 @@
 
   </div>
 </div>
+
+<script src="{{ asset('js/libs/highcharts/highcharts.js')}}"></script>
+<script src="{{ asset('js/libs/highcharts/exporting.js')}}"></script>
+<script src="{{ asset('js/libs/highcharts/export-data.js')}}"></script>
+<script src="{{ asset('js/libs/highcharts/accessibility.js')}}"></script>
+
+<script src="{{ asset('js/components/dashboard/pieChart.js')}}"></script>
+<script src="{{ asset('js/components/dashboard/barChart.js')}}"></script>
+<script src="{{ asset('js/components/dashboard/areaChart.js')}}"></script>
 @endsection
