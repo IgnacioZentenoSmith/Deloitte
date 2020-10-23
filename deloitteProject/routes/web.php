@@ -34,3 +34,6 @@ Route::put('/admin/{id}/updatePermisos', 'AdminController@updatePermisos')->name
 Route::post('/admin/{id}/resend', 'AdminController@resendVerification')->name('admin.resendVerification')->middleware('auth');
 //Rutas de la carpeta dashboard
 Route::resource('dashboard', 'DashboardController')->middleware('auth');
+
+//Rutas de la carpeta dashboard
+Route::resource('retenciones', 'RetencionesController')->middleware('auth');
