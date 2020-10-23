@@ -104,6 +104,17 @@
                         </li>
                         @endif
 
+                        @if(in_array(2, $permisos))
+                        <li class="nav-item mx-2 {{ (request()->is('retenciones*')) ? 'active' : '' }}">
+                            <a class="nav-link" href="{{route('retenciones.index')}}">
+                                <span style="font-size: 1.5em;">
+                                    <i class="fas fa-search-dollar"></i>
+                                </span><br>
+                                Retenciones
+                            </a>
+                        </li>
+                        @endif
+
                         @if(in_array(10, $permisos))
                         <li class="nav-item mx-2 {{ (request()->is('dashboard*')) ? 'active' : '' }}">
                             <a class="nav-link" href="{{route('dashboard.index')}}">
