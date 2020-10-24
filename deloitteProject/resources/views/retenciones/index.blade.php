@@ -4,6 +4,34 @@
 
 <div class="row justify-content-center">
     <div class="col-auto">
+        <div class="col-12">
+            <form method="POST" id="cuotasForm" action="{{route('retenciones.index')}}">
+                @csrf
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="inputCuota">Cuota</label>
+                      <select class="form-control" id="inputCuota" name="inputCuota">
+                        <option value="Agosto">Agosto</option>
+                        <option value="Noviembre">Noviembre</option>
+                      </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="inputYear">Año</label>
+                      <input type="number" min="1900" max="2099" id="inputYear" name="inputYear" class="form-control" step="1" value="2020" />
+                    </div>
+                  </div>
+
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <button type="submit" class="btn btn-primary">
+                            Seleccionar cuota
+                        </button>
+                    </div>
+                </div>
+            </form>
+          </div>
+
         <div class="table-responsive">
             <table id="tablaAdmin" class="table table-hover w-auto text-nowrap btTable" data-show-export="true"
                 data-pagination="true" data-click-to-select="true" data-show-columns="true" data-sortable="true"
@@ -105,4 +133,5 @@
 
 
 <script src="{{ asset('js/components/initBTtables.js')}}"></script>
+<script src="{{ asset('js/components/ajaxCuotas.js')}}"></script>
 @endsection
