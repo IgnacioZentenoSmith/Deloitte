@@ -37,3 +37,4 @@ Route::resource('dashboard', 'DashboardController')->middleware('auth');
 
 //Rutas de la carpeta dashboard
 Route::resource('retenciones', 'RetencionesController')->middleware('auth');
+Route::post('/retenciones/index', 'RetencionesController@ajaxCuotas')->name('retenciones.index')->middleware('auth');
