@@ -10,10 +10,9 @@ class Pago extends Model
 	protected $primaryKey = 'id';
 
     protected $fillable = [
-        'socios_id',
         'cuotas_id',
-        'pagos_monto',
-        'pagos_fecha',
+        'pagos_montoPagar',
+        'pagos_retencion',
+        'pagos_montoRetencion',
     ];
-
 }
