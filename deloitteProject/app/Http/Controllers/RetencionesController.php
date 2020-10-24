@@ -22,6 +22,16 @@ class RetencionesController extends Controller
         return view('retenciones.index', compact('permisos'));
     }
 
+    public function ajaxCuotas(Request $request) {
+        return $request;
+        // return response()
+        //         ->json([
+        //             'message' => 'Success',
+        //             'status' => 200,
+        //             'data' => $request,
+        //         ], 200);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
