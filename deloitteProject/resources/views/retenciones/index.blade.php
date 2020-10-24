@@ -51,14 +51,40 @@
                 <tbody>
 
                     <tr>
-                        <td>Socio1</td>
+                        <td>Roberto</td>
                         <td>20000</td>
                         <td>3000</td>
                         <td>Octubre 2017</td>
                         <td>Si</td>
                         <td>8000</td>
 
-                        <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                        <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal1">
+                            Ver detalle
+                          </button></td>
+                    </tr>
+
+                    <tr>
+                        <td>Alejandro</td>
+                        <td>30000</td>
+                        <td>5000</td>
+                        <td>Octubre 2017</td>
+                        <td>Si</td>
+                        <td>12000</td>
+
+                        <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal2">
+                            Ver detalle
+                          </button></td>
+                    </tr>
+
+                    <tr>
+                        <td>Alberto</td>
+                        <td>20000</td>
+                        <td>0</td>
+                        <td>Octubre 2017</td>
+                        <td>No</td>
+                        <td>0</td>
+
+                        <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal3">
                             Ver detalle
                           </button></td>
                     </tr>
@@ -71,7 +97,7 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -82,12 +108,8 @@
         </div>
         <div class="modal-body">
 
-            <button type="button" class="btn btn-primary my-2">
-                Agregar mes
-            </button>
-
             <div class="table-responsive">
-                <table id="tdetalle" class="table table-hover w-auto text-nowrap btTable"
+                <table id="tdetalle1" class="table table-hover w-auto text-nowrap btTable"
                     data-click-to-select="true" data-sortable="true"
                     data-server-sort="false">
                     <thead>
@@ -98,6 +120,136 @@
                         </tr>
                     </thead>
                     <tbody>
+
+                        <tr>
+                            <td>Octubre 2017</td>
+                            <td>50%</td>
+                            <td>9000</td>
+                        </tr>
+
+                        <tr>
+                            <td>Noviembre 2017</td>
+                            <td>64%</td>
+                            <td>0</td>
+                        </tr>
+
+                        <tr>
+                            <td>Diciembre 2017</td>
+                            <td>68%</td>
+                            <td>0</td>
+                        </tr>
+
+                        <tr>
+                            <td>Enero 2018</td>
+                            <td>93%</td>
+                            <td>8000</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+          <button type="button" class="btn btn-primary">Guardar cambios</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+<div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Detalles de pago de la cuota</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+            <div class="table-responsive">
+                <table id="tdetalle2" class="table table-hover w-auto text-nowrap btTable"
+                    data-click-to-select="true" data-sortable="true"
+                    data-server-sort="false">
+                    <thead>
+                        <tr>
+                            <th scope="col" data-field="Fecha" data-sortable="true">Fecha</th>
+                            <th scope="col" data-field="Cumplimiento" data-sortable="true">Cumplimiento</th>
+                            <th scope="col" data-field="Verificado" data-sortable="true">Monto a pagar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td>Octubre 2017</td>
+                            <td>100%</td>
+                            <td>20000</td>
+                        </tr>
+
+                        <tr>
+                            <td>Noviembre 2017</td>
+                            <td>100%</td>
+                            <td>0</td>
+                        </tr>
+
+                        <tr>
+                            <td>Diciembre 2017</td>
+                            <td>100%</td>
+                            <td>0</td>
+                        </tr>
+
+                        <tr>
+                            <td>Enero 2018</td>
+                            <td>100%</td>
+                            <td>0</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+          <button type="button" class="btn btn-primary">Guardar cambios</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel3" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Detalles de pago de la cuota</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+            <div class="table-responsive">
+                <table id="tdetalle3" class="table table-hover w-auto text-nowrap btTable"
+                    data-click-to-select="true" data-sortable="true"
+                    data-server-sort="false">
+                    <thead>
+                        <tr>
+                            <th scope="col" data-field="Fecha" data-sortable="true">Fecha</th>
+                            <th scope="col" data-field="Cumplimiento" data-sortable="true">Cumplimiento</th>
+                            <th scope="col" data-field="Verificado" data-sortable="true">Monto a pagar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td>Octubre 2017</td>
+                            <td>50%</td>
+                            <td>9000</td>
+                        </tr>
 
                         <tr>
                             <td>Noviembre 2017</td>

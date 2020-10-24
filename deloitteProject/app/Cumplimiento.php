@@ -10,7 +10,7 @@ class Cumplimiento extends Model
 	protected $primaryKey = 'id';
 
     protected $fillable = [
-        'cuotas_id',
+        'socios_id',
         'cumplimientos_porcentaje',
         'cumplimientos_fecha',
     ];

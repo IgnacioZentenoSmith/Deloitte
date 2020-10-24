@@ -11,12 +11,8 @@ class Cuota extends Model
 
     protected $fillable = [
         'socios_id',
-        'cuotas_monto',
-        'cuotas_valorPorRendir',
-        'cuotas_retencion',
-        'cuotas_retencionMonto',
         'cuotas_fecha',
-        'cuotas_fechaCumplimiento',
+        'cuotas_montoCuota',
+        'cuotas_valorPorRendir',
     ];
-
 }
