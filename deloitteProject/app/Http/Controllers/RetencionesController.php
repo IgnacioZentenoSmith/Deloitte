@@ -4,6 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+//Traer modelos
+use App\Menu_user;
+//Usuario conectado en esta sesion
+use Auth;
+
 class RetencionesController extends Controller
 {
     /**
@@ -13,7 +18,8 @@ class RetencionesController extends Controller
      */
     public function index()
     {
-        //
+        $permisos = $this->getPermisos();
+        return view('retenciones.index', compact('permisos'));
     }
 
     /**
@@ -80,5 +86,11 @@ class RetencionesController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    private function getPermisos() {
+        $permisos = Menu_user::where('users_id', Auth::user()->id)->get();
+        $permisos = $permisos->pluck('menus_id')->toArray();
+        return $permisos;
     }
 }
