@@ -17,12 +17,9 @@ class CreateCuotasTable extends Migration
             $table->id();
             $table->unsignedBigInteger('socios_id');
 
-            $table->decimal('cuotas_monto', 16, 2);
-            $table->decimal('cuotas_valorPorRendir', 16, 2);
-            $table->boolean('cuotas_retencion');
-            $table->decimal('cuotas_retencionMonto', 16, 2);
             $table->date('cuotas_fecha');
-            $table->date('cuotas_fechaCumplimiento');
+            $table->decimal('cuotas_montoCuota', 16, 2);
+            $table->decimal('cuotas_valorPorRendir', 16, 2);
             $table->timestamps();
 
             $table->foreign('socios_id')->references('id')->on('socios')->onDelete('cascade');

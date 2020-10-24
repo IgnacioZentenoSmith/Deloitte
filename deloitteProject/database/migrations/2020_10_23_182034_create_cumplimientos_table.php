@@ -15,13 +15,13 @@ class CreateCumplimientosTable extends Migration
     {
         Schema::create('cumplimientos', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('cuotas_id');
+            $table->unsignedBigInteger('socios_id');
 
             $table->decimal('cumplimientos_porcentaje', 3, 2);
             $table->date('cumplimientos_fecha');
             $table->timestamps();
 
-            $table->foreign('cuotas_id')->references('id')->on('cuotas')->onDelete('cascade');
+            $table->foreign('socios_id')->references('id')->on('cuotas')->onDelete('cascade');
         });
     }
 
