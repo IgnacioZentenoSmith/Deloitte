@@ -10,12 +10,12 @@
         <a class="nav-link {{ (request()->is('retenciones')) ? 'active' : '' }}" href="{{route('retenciones.index')}}">Historial de retenciones</a>
       </li>
     @endif
-      {{--
+
     @if(in_array(3, $permisos))
       <li class="nav-item">
-        <a class="nav-link {{ (request()->is('admin/create')) ? 'active' : '' }}" href="{{route('admin.create')}}">Crear usuario</a>
+        <a class="nav-link {{ (request()->is('retenciones/importExcel')) ? 'active' : '' }}" href="{{route('retenciones.importExcel')}}">Importar excel</a>
       </li>
-    @endif --}}
+    @endif
 
     </ul>
   </div>
