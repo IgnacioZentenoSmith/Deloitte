@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Imports\RetencionesImport;
+use Maatwebsite\Excel\Facades\Excel;
 //Traer modelos
 use App\Menu_user;
 //Usuario conectado en esta sesion
@@ -20,6 +22,16 @@ class RetencionesController extends Controller
     {
         $permisos = $this->getPermisos();
         return view('retenciones.index', compact('permisos'));
+    }
+
+    public function getImportExcel() {
+        $permisos = $this->getPermisos();
+        return view('retenciones.importExcel', compact('permisos'));
+    }
+
+    public function postImportExcel(Request $request) {
+        $rows = Excel::toArray(new RetencionesImport, $request->file('file'));
+        return response()->json(["rows"=>$rows]);
     }
 
     public function ajaxCuotas(Request $request) {
@@ -39,7 +51,7 @@ class RetencionesController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
