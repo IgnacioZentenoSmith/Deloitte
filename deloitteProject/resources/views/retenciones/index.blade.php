@@ -7,30 +7,57 @@
         <div class="col-12">
             <form method="POST" id="cuotasForm" action="{{route('retenciones.index')}}">
                 @csrf
-
                 <div class="form-row">
+                    <label class="form-check-label" for="containerMetodoBusqueda">Método de búsqueda:</label>
+                </div>
+                <div class="form-row my-2">
+                    <div class="form-check form-check-inline" id="containerMetodoBusqueda">
+                        <input class="form-check-input" type="radio" name="radioMetodoBusqueda" id="radioCuota"
+                            value="cuota" required>
+                        <label class="form-check-label" for="radioCuota">Por cuota</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="radioMetodoBusqueda" id="radioMes"
+                            value="mes">
+                        <label class="form-check-label" for="radioMes">Por mes</label>
+                    </div>
+                </div>
+
+
+                <div class="form-row d-none" id="labelFiltro">
+                    <label class="form-check-label">Filtros:</label>
+                </div>
+                <div class="form-row my-2 d-none" id="containerFiltrosCuota">
                     <div class="form-group col-md-6">
-                      <label for="inputCuota">Cuota</label>
-                      <select class="form-control" id="inputCuota" name="inputCuota">
-                        <option value="Agosto">Agosto</option>
-                        <option value="Noviembre">Noviembre</option>
-                      </select>
+                        <label for="cuotaMes">Cuota</label>
+                        <select class="form-control" id="cuotaMes" name="cuotaMes">
+                            <option value="Agosto">Agosto</option>
+                            <option value="Noviembre">Noviembre</option>
+                        </select>
                     </div>
                     <div class="form-group col-md-6">
-                      <label for="inputYear">Año</label>
-                      <input type="number" min="1900" max="2099" id="inputYear" name="inputYear" class="form-control" step="1" value="2020" />
+                        <label for="cuotaYear">Año</label>
+                        <input type="number" min="2000" max="3000" id="cuotaYear" name="cuotaYear" class="form-control"
+                            step="1"/>
                     </div>
-                  </div>
+                </div>
+
+                <div class="form-row my-2 d-none" id="containerFiltrosMes">
+                    <div class="form-group col-md-6">
+                        <label for="mesFecha">Fecha</label>
+                        <input type="month" id="mesFecha" name="mesFecha" class="form-control"/>
+                    </div>
+                </div>
 
                 <div class="form-group row">
                     <div class="col-md-3">
                         <button type="submit" class="btn btn-primary">
-                            Seleccionar cuota
+                            Filtrar retenciones
                         </button>
                     </div>
                 </div>
             </form>
-          </div>
+        </div>
 
         <div class="table-responsive">
             <table id="tablaAdmin" class="table table-hover w-auto text-nowrap btTable" data-show-export="true"
@@ -58,35 +85,10 @@
                         <td>Si</td>
                         <td>8000</td>
 
-                        <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal1">
-                            Ver detalle
-                          </button></td>
-                    </tr>
-
-                    <tr>
-                        <td>Alejandro</td>
-                        <td>30000</td>
-                        <td>5000</td>
-                        <td>Octubre 2017</td>
-                        <td>Si</td>
-                        <td>12000</td>
-
-                        <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal2">
-                            Ver detalle
-                          </button></td>
-                    </tr>
-
-                    <tr>
-                        <td>Alberto</td>
-                        <td>20000</td>
-                        <td>0</td>
-                        <td>Octubre 2017</td>
-                        <td>No</td>
-                        <td>0</td>
-
-                        <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal3">
-                            Ver detalle
-                          </button></td>
+                        <td><button type="button" class="btn btn-primary" data-toggle="modal"
+                                data-target="#exampleModal1">
+                                Ver detalle
+                            </button></td>
                     </tr>
 
                 </tbody>
@@ -97,193 +99,69 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1"
+    aria-hidden="true">
     <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Detalles de pago de la cuota</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-
-            <div class="table-responsive">
-                <table id="tdetalle1" class="table table-hover w-auto text-nowrap btTable"
-                    data-click-to-select="true" data-sortable="true"
-                    data-server-sort="false">
-                    <thead>
-                        <tr>
-                            <th scope="col" data-field="Fecha" data-sortable="true">Fecha</th>
-                            <th scope="col" data-field="Cumplimiento" data-sortable="true">Cumplimiento</th>
-                            <th scope="col" data-field="Verificado" data-sortable="true">Monto a pagar</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                        <tr>
-                            <td>Octubre 2017</td>
-                            <td>50%</td>
-                            <td>9000</td>
-                        </tr>
-
-                        <tr>
-                            <td>Noviembre 2017</td>
-                            <td>64%</td>
-                            <td>0</td>
-                        </tr>
-
-                        <tr>
-                            <td>Diciembre 2017</td>
-                            <td>68%</td>
-                            <td>0</td>
-                        </tr>
-
-                        <tr>
-                            <td>Enero 2018</td>
-                            <td>93%</td>
-                            <td>8000</td>
-                        </tr>
-
-                    </tbody>
-                </table>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Detalles de pago de la cuota</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
+            <div class="modal-body">
 
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
-          <button type="button" class="btn btn-primary">Guardar cambios</button>
-        </div>
-      </div>
-    </div>
-  </div>
+                <div class="table-responsive">
+                    <table id="tdetalle1" class="table table-hover w-auto text-nowrap btTable"
+                        data-click-to-select="true" data-sortable="true" data-server-sort="false">
+                        <thead>
+                            <tr>
+                                <th scope="col" data-field="Fecha" data-sortable="true">Fecha</th>
+                                <th scope="col" data-field="Cumplimiento" data-sortable="true">Cumplimiento</th>
+                                <th scope="col" data-field="Verificado" data-sortable="true">Monto a pagar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
 
-  <!-- Modal -->
-<div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Detalles de pago de la cuota</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
+                            <tr>
+                                <td>Octubre 2017</td>
+                                <td>50%</td>
+                                <td>9000</td>
+                            </tr>
 
-            <div class="table-responsive">
-                <table id="tdetalle2" class="table table-hover w-auto text-nowrap btTable"
-                    data-click-to-select="true" data-sortable="true"
-                    data-server-sort="false">
-                    <thead>
-                        <tr>
-                            <th scope="col" data-field="Fecha" data-sortable="true">Fecha</th>
-                            <th scope="col" data-field="Cumplimiento" data-sortable="true">Cumplimiento</th>
-                            <th scope="col" data-field="Verificado" data-sortable="true">Monto a pagar</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                            <tr>
+                                <td>Noviembre 2017</td>
+                                <td>64%</td>
+                                <td>0</td>
+                            </tr>
 
-                        <tr>
-                            <td>Octubre 2017</td>
-                            <td>100%</td>
-                            <td>20000</td>
-                        </tr>
+                            <tr>
+                                <td>Diciembre 2017</td>
+                                <td>68%</td>
+                                <td>0</td>
+                            </tr>
 
-                        <tr>
-                            <td>Noviembre 2017</td>
-                            <td>100%</td>
-                            <td>0</td>
-                        </tr>
+                            <tr>
+                                <td>Enero 2018</td>
+                                <td>93%</td>
+                                <td>8000</td>
+                            </tr>
 
-                        <tr>
-                            <td>Diciembre 2017</td>
-                            <td>100%</td>
-                            <td>0</td>
-                        </tr>
+                        </tbody>
+                    </table>
+                </div>
 
-                        <tr>
-                            <td>Enero 2018</td>
-                            <td>100%</td>
-                            <td>0</td>
-                        </tr>
-
-                    </tbody>
-                </table>
             </div>
-
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
-          <button type="button" class="btn btn-primary">Guardar cambios</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal -->
-<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel3" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Detalles de pago de la cuota</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-
-            <div class="table-responsive">
-                <table id="tdetalle3" class="table table-hover w-auto text-nowrap btTable"
-                    data-click-to-select="true" data-sortable="true"
-                    data-server-sort="false">
-                    <thead>
-                        <tr>
-                            <th scope="col" data-field="Fecha" data-sortable="true">Fecha</th>
-                            <th scope="col" data-field="Cumplimiento" data-sortable="true">Cumplimiento</th>
-                            <th scope="col" data-field="Verificado" data-sortable="true">Monto a pagar</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                        <tr>
-                            <td>Octubre 2017</td>
-                            <td>50%</td>
-                            <td>9000</td>
-                        </tr>
-
-                        <tr>
-                            <td>Noviembre 2017</td>
-                            <td>64%</td>
-                            <td>0</td>
-                        </tr>
-
-                        <tr>
-                            <td>Diciembre 2017</td>
-                            <td>68%</td>
-                            <td>0</td>
-                        </tr>
-
-                        <tr>
-                            <td>Enero 2018</td>
-                            <td>93%</td>
-                            <td>8000</td>
-                        </tr>
-
-                    </tbody>
-                </table>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+                <button type="button" class="btn btn-primary">Guardar cambios</button>
             </div>
-
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
-          <button type="button" class="btn btn-primary">Guardar cambios</button>
-        </div>
-      </div>
     </div>
-  </div>
-
+</div>
 
 
 <script src="{{ asset('js/components/initBTtables.js')}}"></script>
-<script src="{{ asset('js/components/ajaxCuotas.js')}}"></script>
+<script src="{{ asset('js/components/retenciones/ajaxFormularioRetenciones.js')}}"></script>
+<script src="{{ asset('js/components/retenciones/filtrosRetenciones.js')}}"></script>
 @endsection
