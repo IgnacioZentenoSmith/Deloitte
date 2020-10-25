@@ -18,7 +18,7 @@ class CreateCumplimientosTable extends Migration
             $table->unsignedBigInteger('socios_id');
 
             $table->decimal('cumplimientos_porcentaje', 3, 2);
-            $table->date('cumplimientos_fecha');
+            $table->string('cumplimientos_fecha', 7);
             $table->timestamps();
 
             $table->foreign('socios_id')->references('id')->on('cuotas')->onDelete('cascade');

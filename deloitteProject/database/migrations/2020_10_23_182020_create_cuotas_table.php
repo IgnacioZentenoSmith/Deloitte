@@ -17,7 +17,7 @@ class CreateCuotasTable extends Migration
             $table->id();
             $table->unsignedBigInteger('socios_id');
 
-            $table->date('cuotas_fecha');
+            $table->string('cuotas_fecha', 7);
             $table->decimal('cuotas_montoCuota', 16, 2);
             $table->decimal('cuotas_valorPorRendir', 16, 2);
             $table->timestamps();
