@@ -17,7 +17,7 @@ class CreatePagosTable extends Migration
             $table->id();
             $table->unsignedBigInteger('cuotas_id');
 
-            $table->date('pagos_fecha');
+            $table->string('pagos_fecha', 7);
             $table->decimal('pagos_montoPagar', 16, 2);
             $table->boolean('pagos_retencion');
             $table->decimal('pagos_montoRetencion', 16, 2);

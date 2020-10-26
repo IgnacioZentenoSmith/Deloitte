@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+//Imports
 use App\Imports\RetencionesImport;
+
 use Maatwebsite\Excel\Facades\Excel;
 //Traer modelos
 use App\Menu_user;
@@ -30,18 +31,12 @@ class RetencionesController extends Controller
     }
 
     public function postImportExcel(Request $request) {
-        $rows = Excel::toArray(new RetencionesImport, $request->file('file'));
-        return response()->json(["rows"=>$rows]);
+        $rows = Excel::import(new RetencionesImport, $request->file('file'));
+        dd($rows);
     }
 
     public function ajaxCuotas(Request $request) {
         return $request;
-        // return response()
-        //         ->json([
-        //             'message' => 'Success',
-        //             'status' => 200,
-        //             'data' => $request,
-        //         ], 200);
     }
 
     /**
