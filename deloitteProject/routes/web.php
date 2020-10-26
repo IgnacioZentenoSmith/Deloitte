@@ -37,6 +37,6 @@ Route::resource('dashboard', 'DashboardController')->middleware('auth');
 
 //Rutas de la carpeta dashboard
 Route::get('/retenciones/importExcel', 'RetencionesController@getImportExcel')->name('retenciones.importExcel')->middleware('auth');
+Route::post('/retenciones/ajax', 'RetencionesController@ajaxCuotas')->name('retenciones.ajax')->middleware('auth');
 Route::resource('retenciones', 'RetencionesController')->middleware('auth');
-Route::post('/retenciones/index', 'RetencionesController@ajaxCuotas')->name('retenciones')->middleware('auth');
 Route::post('/retenciones/postExcel', 'RetencionesController@postImportExcel')->name('retenciones.postExcel')->middleware('auth');
