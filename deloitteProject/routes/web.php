@@ -34,3 +34,9 @@ Route::put('/admin/{id}/updatePermisos', 'AdminController@updatePermisos')->name
 Route::post('/admin/{id}/resend', 'AdminController@resendVerification')->name('admin.resendVerification')->middleware('auth');
 //Rutas de la carpeta dashboard
 Route::resource('dashboard', 'DashboardController')->middleware('auth');
+
+//Rutas de la carpeta dashboard
+Route::get('/retenciones/importExcel', 'RetencionesController@getImportExcel')->name('retenciones.importExcel')->middleware('auth');
+Route::post('/retenciones/ajax', 'RetencionesController@ajaxCuotas')->name('retenciones.ajax')->middleware('auth');
+Route::resource('retenciones', 'RetencionesController')->middleware('auth');
+Route::post('/retenciones/postExcel', 'RetencionesController@postImportExcel')->name('retenciones.postExcel')->middleware('auth');
