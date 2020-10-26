@@ -2,6 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Socio;
+use App\Cuota;
+use App\Cumplimiento;
+use App\Pago;
+use Carbon\Carbon;
+use Illuminate\Support\Collection;
+
 use Illuminate\Http\Request;
 //Imports
 use App\Imports\RetencionesImport;
@@ -31,11 +38,79 @@ class RetencionesController extends Controller
     }
 
     public function postImportExcel(Request $request) {
-        $rows = Excel::import(new RetencionesImport, $request->file('file'));
-        dd($rows);
+        Excel::import(new RetencionesImport, $request->file('file'));
+        return redirect('retenciones')->with('success', 'Excel importado exitosamente.');
     }
 
     public function ajaxCuotas(Request $request) {
+        //Validar campos de datos, si uno falla devuelve error en la vista
+        $request->validate([
+            'radioMetodoBusqueda'=>'required|string|max:255',
+        ]);
+        if ($request->radioMetodoBusqueda == 'cuota') {
+            //Validar fecha
+            if ($request->cuotaMes == 'Agosto') {
+                $fecha = Carbon::createFromFormat('m-Y', '08-2020')->format('Y-m');
+            } else if ($request->cuotaMes == 'Noviembre') {
+                $fecha = Carbon::createFromFormat('m-Y', '11-2020')->format('Y-m');
+            }
+            //Sacar datos
+            $cuotas = Cuota::where('cuotas_fecha', $fecha)
+            ->join('socios', 'socios.id', '=', 'cuotas.socios_id')
+            ->select('cuotas.*', 'socios.socios_nombre')
+            ->get();
+
+            $detalles = collect([]);
+            foreach ($cuotas as $cuota) {
+                //Saca pago y cumplimiento asociado a ese mes
+                $pagos = Pago::where('cuotas_id', $cuota->id)
+                ->join('cumplimientos', 'cumplimientos.cumplimientos_fecha', '=', 'pagos.pagos_fecha')
+                ->where('socios_id', $cuota->socios_id)
+                ->select('pagos.*', 'cumplimientos.cumplimientos_porcentaje', 'cumplimientos.socios_id')
+                ->get();
+
+                $detalles = $detalles->mergeRecursive($pagos);
+            }
+            return response()->json(['detalles' => $detalles, 'tabla' => $cuotas]);
+
+        } else if ($request->radioMetodoBusqueda == 'mes') {
+            $fecha = $request->mesFecha;
+            //$fecha = Carbon::createFromFormat('Y-m', $fecha)->format('Y-m');
+
+            $detalles = Pago::where('pagos_fecha', $fecha)
+            ->join('cuotas', 'cuotas.id', '=', 'pagos.cuotas_id')
+            ->join('socios', 'socios.id', '=', 'cuotas.socios_id')
+            ->join('cumplimientos', 'cumplimientos.socios_id', '=', 'socios.id')
+            ->where('cumplimientos.cumplimientos_fecha', $fecha)
+            ->get();
+
+            $tabla = collect([]);
+
+            $socios = Socio::all();
+            foreach ($socios as $socio) {
+                $totalCuotas = $detalles->where('socios_nombre', $socio->socios_nombre)->sum('cuotas_montoCuota');
+                $totalPagar = $detalles->where('socios_nombre', $socio->socios_nombre)->sum('pagos_montoPagar');
+                $totalValorPorRendir = $detalles->where('socios_nombre', $socio->socios_nombre)->sum('cuotas_valorPorRendir');
+                $totalRetenciones = $detalles->where('socios_nombre', $socio->socios_nombre)->sum('pagos_montoRetencion');
+                $cumplimiento = $detalles->where('socios_nombre', $socio->socios_nombre)->first();
+                $data = collect([
+                    'IDsocio' => $socio->id,
+                    'socio' => $socio->socios_nombre,
+                    'totalCuotas' => $totalCuotas,
+                    'totalPagar' => $totalPagar,
+                    'totalValorPorRendir' => $totalValorPorRendir,
+                    'totalRetenciones' => $totalRetenciones,
+                    'cumplimiento' => $cumplimiento->cumplimientos_porcentaje,
+                ]);
+                $tabla = $tabla->push($data);
+            }
+
+            return response()->json(['detalles' => $detalles, 'tabla' => $tabla]);
+            //return response()->json(['detalles' => $detalles, 'tabla' => $cuotas]);
+
+        } else if ($request->radioMetodoBusqueda == 'socio') {
+
+        }
         return $request;
     }
 
