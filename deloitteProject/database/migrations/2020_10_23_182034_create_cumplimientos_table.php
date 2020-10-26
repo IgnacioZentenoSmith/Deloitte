@@ -17,7 +17,7 @@ class CreateCumplimientosTable extends Migration
             $table->id();
             $table->unsignedBigInteger('socios_id');
 
-            $table->decimal('cumplimientos_porcentaje', 3, 2);
+            $table->decimal('cumplimientos_porcentaje', 5, 2);
             $table->string('cumplimientos_fecha', 7);
             $table->timestamps();
 
