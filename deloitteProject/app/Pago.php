@@ -15,5 +15,6 @@ class Pago extends Model
         'pagos_montoPagar',
         'pagos_retencion',
         'pagos_montoRetencion',
+        'pagos_fechaCumplimientoRetencion',
     ];
 }

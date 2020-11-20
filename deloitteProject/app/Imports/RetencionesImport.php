@@ -110,19 +110,52 @@ class RetencionesImport implements ToCollection, WithHeadingRow
                 ->where('pagos_fecha', $mes)
                 ->first();
                 if ($pago == null) {
-                    $retencion = false;
-                    $montoRetencion = 0;
-                    if ($cumplimiento->cumplimientos_porcentaje < 85) {
-                        $retencion = true;
-                        $montoRetencion = $cuota->cuotas_montoCuota*0.4;
+                    //Ha habido un cumplimiento de 85% antes?
+                    $is_85Antes = Pago::where('cuotas_id', $cuota->id)
+                        ->where('pagos_retencion', false)
+                        ->first();
+                    //Si hay
+                    if ($is_85Antes != null) {
+                        //Ya no hay retencion
+                        $montoPagar = 0;
+                        $retencion = false;
+                        $montoRetencion = 0;
+                        $fechaCumplimientoRetencion = $is_85Antes->pagos_fechaCumplimientoRetencion;
                     }
-                    $montoPagar = $cuota->cuotas_montoCuota - $cuota->cuotas_valorPorRendir - $montoRetencion;
+                    //No hay
+                    else {
+                        $montoPagar = 0;
+                        //Es el primer pago de la cuota?
+                        if ($fechaCuota == $mes) {
+                            $montoPagar = $cuota->cuotas_montoCuota - $cuota->cuotas_valorPorRendir;
+                        }
+
+                        //Si el cumplimiento es menor a 85%, retener
+                        if ($cumplimiento->cumplimientos_porcentaje < 85) {
+                            $retencion = true;
+                            $montoRetencion = $cuota->cuotas_montoCuota*0.4;
+                            $fechaCumplimientoRetencion = null;
+                            if ($montoPagar != 0) {
+                                $montoPagar -= $montoRetencion;
+                            }
+                        }
+                        //Cumplimiento mayor a 85%
+                        else {
+                            $retencion = false;
+                            $montoRetencion = 0;
+                            $fechaCumplimientoRetencion = $mes;
+                            $montoPagar += $cuota->cuotas_montoCuota*0.4;
+                        }
+                    }
+
+
                     $pago = new Pago([
                         'cuotas_id' => $cuota->id,
                         'pagos_fecha' => $mes,
                         'pagos_montoPagar' => $montoPagar,
                         'pagos_retencion' => $retencion,
                         'pagos_montoRetencion' => $montoRetencion,
+                        'pagos_fechaCumplimientoRetencion' => $fechaCumplimientoRetencion,
                     ]);
                     $pago->save();
                 }
