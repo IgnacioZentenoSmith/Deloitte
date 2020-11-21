@@ -57,42 +57,19 @@ class RetencionesImport implements ToCollection, WithHeadingRow
 
             foreach ($mesesKeys as $key) {
                 //Cumplimientos por mes
-                if ($key == 'porcentaje_a_enero_2020') {
-                    $mes = Carbon::createFromFormat('m-Y', '01-2020')->format('Y-m');
-                }
-                if ($key == 'porcentaje_a_febrero_2020') {
-                    $mes = Carbon::createFromFormat('m-Y', '02-2020')->format('Y-m');
-                }
-                if ($key == 'porcentaje_a_marzo_2020') {
-                    $mes = Carbon::createFromFormat('m-Y', '03-2020')->format('Y-m');
-                }
-                if ($key == 'porcentaje_a_abril_2020') {
-                    $mes = Carbon::createFromFormat('m-Y', '04-2020')->format('Y-m');
-                }
-                if ($key == 'porcentaje_a_mayo_2020') {
-                    $mes = Carbon::createFromFormat('m-Y', '05-2020')->format('Y-m');
-                }
-                if ($key == 'porcentaje_a_junio_2020') {
-                    $mes = Carbon::createFromFormat('m-Y', '06-2020')->format('Y-m');
-                }
-                if ($key == 'porcentaje_a_julio_2020') {
-                    $mes = Carbon::createFromFormat('m-Y', '07-2020')->format('Y-m');
-                }
-                if ($key == 'porcentaje_a_agosto_2020') {
-                    $mes = Carbon::createFromFormat('m-Y', '08-2020')->format('Y-m');
-                }
-                if ($key == 'porcentaje_a_septiembre_2020') {
-                    $mes = Carbon::createFromFormat('m-Y', '09-2020')->format('Y-m');
-                }
-                if ($key == 'porcentaje_a_octubre_2020') {
-                    $mes = Carbon::createFromFormat('m-Y', '10-2020')->format('Y-m');
-                }
-                if ($key == 'porcentaje_a_noviembre_2020') {
-                    $mes = Carbon::createFromFormat('m-Y', '11-2020')->format('Y-m');
-                }
-                if ($key == 'porcentaje_a_diciembre_2020') {
-                    $mes = Carbon::createFromFormat('m-Y', '12-2020')->format('Y-m');
-                }
+                $meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+                    'julio','agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+
+                // ej de string: porcentaje_a_enero_2020
+                $columnasCumplimientoExcel = explode('_', $key);
+                // 2020
+                $year = array_pop($columnasCumplimientoExcel);
+                // enero
+                $month = array_pop($columnasCumplimientoExcel);
+                // array empieza de 0 (enero), carbon de 1 (enero)
+                $numeroMes = array_search($month, $meses) + 1;
+                // crear mes relativo al obtenido en excel
+                $mes = Carbon::createFromFormat('m-Y', $numeroMes . '-' . $year)->format('Y-m');
 
                 $cumplimiento = Cumplimiento::where('socios_id', $socio->id)
                 ->where('cumplimientos_fecha', $mes)
