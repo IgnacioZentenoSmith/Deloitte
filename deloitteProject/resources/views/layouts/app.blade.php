@@ -108,7 +108,7 @@
                         <li class="nav-item mx-2 {{ (request()->is('retenciones*')) ? 'active' : '' }}">
                             <a class="nav-link" href="{{route('retenciones.index')}}">
                                 <span style="font-size: 1.5em;">
-                                    <i class="fas fa-search-dollar"></i>
+                                    <i class="fas fa-hand-holding-usd"></i>
                                 </span><br>
                                 Retenciones
                             </a>
