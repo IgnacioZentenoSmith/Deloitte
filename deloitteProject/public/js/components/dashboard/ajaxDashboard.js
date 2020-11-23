@@ -17,42 +17,95 @@ $(document).ready(function () {
             {
                 toggleSubmitButton(false);
                 console.log(response);
-                if (response.metodoBusqueda == 'socio') {
-                    rand = Math.floor(Math.random() * 900) / 10;
-                    menosRand = 100 - rand;
+                if (response.metodoBusqueda == 'cuota') {
+                    pieChartConstructor(
+                        appendDivToParent('piePorcentajeRetenciones', 'graphsContainer', 'col-md-6 col-xs-12'),
+                        'Porcentaje de cuotas',
+                        'cuotas pagadas y retenidas',
+                        'Porcentaje',
+                        response.piePorcentajeRetenidos
+                    );
+                    barChartConstructor(
+                        appendDivToParent('barPromediosPorMes', 'graphsContainer' ,'col-md-6 col-xs-12'),
+                        response.categoriaMeses,
+                        'Porcentaje del promedio de cumplimiento por meses',
+                        'Promedio de cumplimientos',
+                        'detalle por meses',
+                        response.barPromedioCumplimientos,
+                        'bar'
+                    );
 
-                    pieData = {
-                        data: [{
-                            name: 'Retenido',
-                            y: menosRand,
-                        }, {
-                            name: 'No retenido',
-                            y: rand
-                        }]
-                    };
+                    areaChartConstructor(
+                        appendDivToParent('areaMontosMes', 'graphsContainer' ,'col'),
+                        'Monto acumulado de pagos y retenciones por mes',
+                        response.categoriaMeses,
+                        'Monto en miles de pesos',
+                        response.areaTotalMontosMes,
+                    );
+                }
+                else if (response.metodoBusqueda == 'mes') {
+                    pieChartConstructor(
+                        appendDivToParent('piePorcentajeRetenciones', 'graphsContainer', 'col-md-6 col-xs-12'),
+                        'Porcentaje de cuotas',
+                        'cuotas pagadas y retenidas',
+                        'Porcentaje',
+                        response.piePorcentajeRetenidos
+                    );
+                    barChartConstructor(
+                        appendDivToParent('barPromediosPorMes', 'graphsContainer' ,'col-md-6 col-xs-12'),
+                        response.mes,
+                        'Monto en miles de CLP',
+                        'Monto de pagos y retenciones',
+                        '',
+                        response.barTotalMontos,
+                        'bar'
+                    );
+                    barChartConstructor(
+                        appendDivToParent('barCumplimientos', 'graphsContainer' ,'col'),
+                        response.nombreSocios,
+                        'Porcentaje de cumplimiento',
+                        'Cumplimientos de los socios',
+                        '',
+                        response.barCumplimientosThisMonth,
+                        'column',
+                        true
+                    );
+                }
+                else if (response.metodoBusqueda == 'socio') {
 
                     pieChartConstructor(
-                        appendDivToParent('piePorcentajeMontos', 'col-6', 'graphsContainer'),
+                        appendDivToParent('piePorcentajeMontos', 'graphsContainer', 'col-md-6 col-xs-12'),
                         'Porcentaje de montos',
                         'Retenidos y pagados del total',
                         'Porcentaje',
-                        pieData
+                        response.piePorcentaje
                     );
                     barChartConstructor(
-                        appendDivToParent('barCumplimientos', 'col-6', 'graphsContainer'),
+                        appendDivToParent('barCumplimientos', 'graphsContainer' ,'col-md-6 col-xs-12'),
                         response.categoriaMeses,
                         'Porcentaje de cumplimiento',
                         'Cumplimientos de ' + response.nombreSocio,
                         'detalle por meses',
-                        response.barraCumplimientos
+                        response.barraCumplimientos,
+                        'bar'
                     );
                     barChartConstructor(
-                        appendDivToParent('barPagos', 'col-6', 'graphsContainer'),
+                        appendDivToParent('barPagos', 'graphsContainer' ,'col-md-6 col-xs-12'),
                         response.categoriaMeses,
-                        'Monto de los pagos por mes (en miles de pesos)',
-                        'Pagos de '  + response.nombreSocio,
+                        'Monto de los pagos y retenciones por mes (en miles de pesos)',
+                        'Pagos y retenciones de '  + response.nombreSocio,
                         'detalle por meses',
-                        response.barraPagos
+                        response.barraPagos,
+                        'bar'
+                    );
+                    barChartConstructor(
+                        appendDivToParent('barCuotas', 'graphsContainer' ,'col-md-6 col-xs-12'),
+                        response.categoriaCuotas,
+                        'Montos en miles de pesos',
+                        'Cuotas y pagos por rendir de '  + response.nombreSocio,
+                        'detalle por cuota',
+                        response.barraCuotas,
+                        'column'
                     );
                 }
 
