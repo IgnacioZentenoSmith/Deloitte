@@ -27,11 +27,25 @@ function killChildren(node) {
     }
 }
 
-function appendDivToParent(idName, className, parentElement) {
+function appendDivToParent(idName, parentElement, classname) {
+    /*
+    Objetivo:
+    <div class="col-6">
+        <figure class="highcharts-figure">
+            <div id="idname"></div>
+        </figure>
+    </div>
+    */
     let parent = document.getElementById(parentElement);
-    let newDiv = document.createElement('div');
-    newDiv.className = className;
-    newDiv.id = idName;
-    parent.appendChild(newDiv);
+    let divcol6 = document.createElement('div');
+    divcol6.className = classname;
+    let figure = document.createElement('figure');
+    figure.className = 'highcharts-figure';
+    let divChartContainer = document.createElement('div');
+    divChartContainer.id = idName;
+
+    parent.appendChild(divcol6);
+    divcol6.appendChild(figure);
+    figure.appendChild(divChartContainer);
     return idName;
 }
