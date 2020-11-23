@@ -73,31 +73,13 @@
             </form>
         </div>
     </div>
+</div>
 
-    <div class="col-12" id="graphsContainer">
-        <div class="col-6">
-            <figure class="highcharts-figure">
-                <div id="pieChart"></div>
-            </figure>
-        </div>
-    </div>
-    {{-- <div class="col-6">
-        <figure class="highcharts-figure">
-            <div id="barChart"></div>
-        </figure>
-    </div>
-    <div class="col-6">
-        <figure class="highcharts-figure">
-            <div id="pieChart"></div>
-        </figure>
-    </div>
-    <div class="col-12">
-        <figure class="highcharts-figure">
-            <div id="areaChart"></div>
-        </figure>
-    </div> --}}
+
+<div class="row" id="graphsContainer">
 
 </div>
+
 <script src="{{ asset('js/libs/highcharts/highcharts.js')}}"></script>
 <script src="{{ asset('js/libs/highcharts/exporting.js')}}"></script>
 <script src="{{ asset('js/libs/highcharts/export-data.js')}}"></script>
