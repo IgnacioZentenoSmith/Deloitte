@@ -39,7 +39,7 @@ function pieChartConstructor(containerID, title_Text, subTitle_Text, series_Name
         series: [{
             name: series_Name,
             colorByPoint: true,
-            data: pieData.data,
+            data: pieData,
         }]
     });
 };

@@ -1,8 +1,8 @@
-function barChartConstructor(containerID, xAxisCategories, yAxisTitle, title_Text, subTitle_Text, barData) {
+function barChartConstructor(containerID, xAxisCategories, yAxisTitle, title_Text, subTitle_Text, barData, barType, is_colorByPoint = false) {
     //Grafico de barras genérico
 	$(containerID).chart = Highcharts.chart({
         chart: {
-            type: 'bar',
+            type: barType,
             renderTo: containerID
         },
         title: {
@@ -31,15 +31,16 @@ function barChartConstructor(containerID, xAxisCategories, yAxisTitle, title_Tex
             bar: {
                 dataLabels: {
                     enabled: true
-                }
+                },
+            series: {
+                    colorByPoint: is_colorByPoint
+                },
             }
         },
         legend: {
             layout: 'vertical',
             align: 'right',
             verticalAlign: 'top',
-            x: -40,
-            y: 80,
             floating: true,
             borderWidth: 1,
             backgroundColor:
@@ -49,6 +50,6 @@ function barChartConstructor(containerID, xAxisCategories, yAxisTitle, title_Tex
         credits: {
             enabled: false
         },
-        series: [barData]
+        series: barData
     });
 }
