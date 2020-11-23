@@ -75,9 +75,14 @@ class RetencionesImport implements ToCollection, WithHeadingRow
                 ->where('cumplimientos_fecha', $mes)
                 ->first();
                 if ($cumplimiento == null) {
+                    $auxValue = $row[$key];
+                    if ($row[$key] == null) {
+                        $auxValue = 100;
+                    };
+
                     $cumplimiento = new Cumplimiento([
                         'socios_id' => $socio->id,
-                        'cumplimientos_porcentaje' => $row[$key],
+                        'cumplimientos_porcentaje' => $auxValue,
                         'cumplimientos_fecha' => $mes,
                     ]);
                     $cumplimiento->save();
