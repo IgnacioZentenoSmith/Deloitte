@@ -21,11 +21,6 @@
                             value="mes">
                         <label class="form-check-label" for="radioMes">Por mes</label>
                     </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="radioMetodoBusqueda" id="radioSocio"
-                            value="socio" disabled>
-                        <label class="form-check-label" for="radioSocio">Por socio</label>
-                    </div>
                 </div>
 
 

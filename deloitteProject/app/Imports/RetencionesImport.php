@@ -57,42 +57,19 @@ class RetencionesImport implements ToCollection, WithHeadingRow
 
             foreach ($mesesKeys as $key) {
                 //Cumplimientos por mes
-                if ($key == 'porcentaje_a_enero_2020') {
-                    $mes = Carbon::createFromFormat('m-Y', '01-2020')->format('Y-m');
-                }
-                if ($key == 'porcentaje_a_febrero_2020') {
-                    $mes = Carbon::createFromFormat('m-Y', '02-2020')->format('Y-m');
-                }
-                if ($key == 'porcentaje_a_marzo_2020') {
-                    $mes = Carbon::createFromFormat('m-Y', '03-2020')->format('Y-m');
-                }
-                if ($key == 'porcentaje_a_abril_2020') {
-                    $mes = Carbon::createFromFormat('m-Y', '04-2020')->format('Y-m');
-                }
-                if ($key == 'porcentaje_a_mayo_2020') {
-                    $mes = Carbon::createFromFormat('m-Y', '05-2020')->format('Y-m');
-                }
-                if ($key == 'porcentaje_a_junio_2020') {
-                    $mes = Carbon::createFromFormat('m-Y', '06-2020')->format('Y-m');
-                }
-                if ($key == 'porcentaje_a_julio_2020') {
-                    $mes = Carbon::createFromFormat('m-Y', '07-2020')->format('Y-m');
-                }
-                if ($key == 'porcentaje_a_agosto_2020') {
-                    $mes = Carbon::createFromFormat('m-Y', '08-2020')->format('Y-m');
-                }
-                if ($key == 'porcentaje_a_septiembre_2020') {
-                    $mes = Carbon::createFromFormat('m-Y', '09-2020')->format('Y-m');
-                }
-                if ($key == 'porcentaje_a_octubre_2020') {
-                    $mes = Carbon::createFromFormat('m-Y', '10-2020')->format('Y-m');
-                }
-                if ($key == 'porcentaje_a_noviembre_2020') {
-                    $mes = Carbon::createFromFormat('m-Y', '11-2020')->format('Y-m');
-                }
-                if ($key == 'porcentaje_a_diciembre_2020') {
-                    $mes = Carbon::createFromFormat('m-Y', '12-2020')->format('Y-m');
-                }
+                $meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+                    'julio','agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+
+                // ej de string: porcentaje_a_enero_2020
+                $columnasCumplimientoExcel = explode('_', $key);
+                // 2020
+                $year = array_pop($columnasCumplimientoExcel);
+                // enero
+                $month = array_pop($columnasCumplimientoExcel);
+                // array empieza de 0 (enero), carbon de 1 (enero)
+                $numeroMes = array_search($month, $meses) + 1;
+                // crear mes relativo al obtenido en excel
+                $mes = Carbon::createFromFormat('m-Y', $numeroMes . '-' . $year)->format('Y-m');
 
                 $cumplimiento = Cumplimiento::where('socios_id', $socio->id)
                 ->where('cumplimientos_fecha', $mes)
@@ -110,19 +87,52 @@ class RetencionesImport implements ToCollection, WithHeadingRow
                 ->where('pagos_fecha', $mes)
                 ->first();
                 if ($pago == null) {
-                    $retencion = false;
-                    $montoRetencion = 0;
-                    if ($cumplimiento->cumplimientos_porcentaje < 85) {
-                        $retencion = true;
-                        $montoRetencion = $cuota->cuotas_montoCuota*0.4;
+                    //Ha habido un cumplimiento de 85% antes?
+                    $is_85Antes = Pago::where('cuotas_id', $cuota->id)
+                        ->where('pagos_retencion', false)
+                        ->first();
+                    //Si hay
+                    if ($is_85Antes != null) {
+                        //Ya no hay retencion
+                        $montoPagar = 0;
+                        $retencion = false;
+                        $montoRetencion = 0;
+                        $fechaCumplimientoRetencion = $is_85Antes->pagos_fechaCumplimientoRetencion;
                     }
-                    $montoPagar = $cuota->cuotas_montoCuota - $cuota->cuotas_valorPorRendir - $montoRetencion;
+                    //No hay
+                    else {
+                        $montoPagar = 0;
+                        //Es el primer pago de la cuota?
+                        if ($fechaCuota == $mes) {
+                            $montoPagar = $cuota->cuotas_montoCuota - $cuota->cuotas_valorPorRendir;
+                        }
+
+                        //Si el cumplimiento es menor a 85%, retener
+                        if ($cumplimiento->cumplimientos_porcentaje < 85) {
+                            $retencion = true;
+                            $montoRetencion = $cuota->cuotas_montoCuota*0.4;
+                            $fechaCumplimientoRetencion = null;
+                            if ($montoPagar != 0) {
+                                $montoPagar -= $montoRetencion;
+                            }
+                        }
+                        //Cumplimiento mayor a 85%
+                        else {
+                            $retencion = false;
+                            $montoRetencion = 0;
+                            $fechaCumplimientoRetencion = $mes;
+                            $montoPagar += $cuota->cuotas_montoCuota*0.4;
+                        }
+                    }
+
+
                     $pago = new Pago([
                         'cuotas_id' => $cuota->id,
                         'pagos_fecha' => $mes,
                         'pagos_montoPagar' => $montoPagar,
                         'pagos_retencion' => $retencion,
                         'pagos_montoRetencion' => $montoRetencion,
+                        'pagos_fechaCumplimientoRetencion' => $fechaCumplimientoRetencion,
                     ]);
                     $pago->save();
                 }

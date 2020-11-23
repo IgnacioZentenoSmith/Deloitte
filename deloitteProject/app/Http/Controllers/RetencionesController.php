@@ -108,8 +108,6 @@ class RetencionesController extends Controller
             return response()->json(['detalles' => $detalles, 'tabla' => $tabla]);
             //return response()->json(['detalles' => $detalles, 'tabla' => $cuotas]);
 
-        } else if ($request->radioMetodoBusqueda == 'socio') {
-
         }
         return $request;
     }
