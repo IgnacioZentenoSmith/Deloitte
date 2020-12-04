@@ -45,11 +45,12 @@ class DashboardController extends Controller
         ]);
         // ***********************************************************************************
         if ($request->radioMetodoBusqueda == 'cuota') {
-            //Validar fecha TODO año
+            //Validar fecha
+            $year = $request->cuotaYear;
             if ($request->cuotaMes == 'Agosto') {
-                $fecha = Carbon::createFromFormat('m-Y', '08-2020')->format('Y-m');
+                $fecha = Carbon::createFromFormat('m-Y', '08-' . $year)->format('Y-m');
             } else if ($request->cuotaMes == 'Noviembre') {
-                $fecha = Carbon::createFromFormat('m-Y', '11-2020')->format('Y-m');
+                $fecha = Carbon::createFromFormat('m-Y', '11-' . $year)->format('Y-m');
             }
 
             $numeroCuotasRetenidas = 0;
@@ -287,16 +288,6 @@ class DashboardController extends Controller
             ->where('cumplimientos.socios_id', $idSocio);
         })
         ->get();
-        return $data;
-    }
-
-    private function getThisMonthData($mes) {
-        $data = [];
-        return $data;
-    }
-
-    private function getThisCuotaData($cuota) {
-        $data = [];
         return $data;
     }
     /**
