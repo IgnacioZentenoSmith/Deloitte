@@ -83,7 +83,7 @@
                         @endif --}}
 
                         @if(in_array(1, $permisos))
-                        <li class="nav-item mx-2 {{ (request()->is('/')) ? 'active' : '' }}">
+                        <li class="nav-item mx-2 {{ (request()->is('home')) ? 'active' : '' }}">
                             <a class="nav-link" href="{{route('home.index')}}">
                                 <span style="font-size: 1.5em;">
                                     <i class="fas fa-home"></i>
@@ -105,15 +105,27 @@
                         @endif
 
                         @if(in_array(2, $permisos))
-                        <li class="nav-item mx-2 {{ (request()->is('retenciones*')) ? 'active' : '' }}">
-                            <a class="nav-link" href="{{route('retenciones.index')}}">
+                        <li class="nav-item mx-2 {{ (request()->is('datos*')) ? 'active' : '' }}">
+                            <a class="nav-link" href="{{route('datos.importarExcel')}}">
                                 <span style="font-size: 1.5em;">
-                                    <i class="fas fa-hand-holding-usd"></i>
+                                    <i class="fas fa-database"></i>
                                 </span><br>
-                                Retenciones
+                                Datos
                             </a>
                         </li>
                         @endif
+
+                        @if(in_array(2, $permisos))
+                        <li class="nav-item mx-2 {{ (request()->is('historiales*')) ? 'active' : '' }}">
+                            <a class="nav-link" href="{{route('historiales.retenciones')}}">
+                                <span style="font-size: 1.5em;">
+                                    <i class="fas fa-dollar-sign"></i>
+                                </span><br>
+                                Historiales
+                            </a>
+                        </li>
+                        @endif
+
 
                         @if(in_array(10, $permisos))
                         <li class="nav-item mx-2 {{ (request()->is('dashboard*')) ? 'active' : '' }}">
