@@ -21,7 +21,7 @@ class CreateCumplimientosTable extends Migration
             $table->string('cumplimientos_fecha', 7);
             $table->timestamps();
 
-            $table->foreign('socios_id')->references('id')->on('cuotas')->onDelete('cascade');
+            $table->foreign('socios_id')->references('id')->on('socios')->onDelete('cascade');
         });
     }
 
