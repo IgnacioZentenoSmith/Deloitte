@@ -13,5 +13,6 @@ class Cumplimiento extends Model
         'socios_id',
         'cumplimientos_porcentaje',
         'cumplimientos_fecha',
+        'exceldata_id'
     ];
 }
