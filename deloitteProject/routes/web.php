@@ -36,8 +36,14 @@ Route::post('/admin/{id}/resend', 'AdminController@resendVerification')->name('a
 Route::post('/dashboard/ajax', 'DashboardController@ajaxRequest')->name('dashboard.ajax')->middleware('auth');
 Route::resource('dashboard', 'DashboardController')->middleware('auth');
 
-//Rutas de la carpeta retenciones
-Route::get('/retenciones/importExcel', 'RetencionesController@getImportExcel')->name('retenciones.importExcel')->middleware('auth');
-Route::post('/retenciones/ajax', 'RetencionesController@ajaxCuotas')->name('retenciones.ajax')->middleware('auth');
-Route::resource('retenciones', 'RetencionesController')->middleware('auth');
-Route::post('/retenciones/postExcel', 'RetencionesController@postImportExcel')->name('retenciones.postExcel')->middleware('auth');
+//Rutas de datos
+Route::get('/datos/importarExcel', 'DatosController@getImportarExcel')->name('datos.importarExcel')->middleware('auth');
+Route::get('/datos/eliminarExcel', 'DatosController@getEliminarExcel')->name('datos.eliminarExcel')->middleware('auth');
+Route::post('/datos/postImportarExcel', 'DatosController@postImportarExcel')->name('datos.postImportarExcel')->middleware('auth');
+Route::delete('/datos/postEliminarExcel/{id}', 'DatosController@postEliminarExcel')->name('datos.postEliminarExcel')->middleware('auth');
+
+//Rutas de historiales
+Route::get('/historiales/pagos', 'HistorialesController@getPagosIndex')->name('historiales.pagos')->middleware('auth');
+Route::get('/historiales/retenciones', 'HistorialesController@getRetencionesIndex')->name('historiales.retenciones')->middleware('auth');
+Route::post('/historiales/ajaxPagos', 'HistorialesController@ajaxPagos')->name('historiales.ajaxPagos')->middleware('auth');
+Route::post('/historiales/ajaxRetenciones', 'HistorialesController@ajaxRetenciones')->name('historiales.ajaxRetenciones')->middleware('auth');

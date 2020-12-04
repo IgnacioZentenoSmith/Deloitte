@@ -14,5 +14,6 @@ class Cuota extends Model
         'cuotas_fecha',
         'cuotas_montoCuota',
         'cuotas_valorPorRendir',
+        'exceldata_id'
     ];
 }

@@ -7,13 +7,13 @@
 
     @if(in_array(5, $permisos))
       <li class="nav-item">
-        <a class="nav-link {{ (request()->is('retenciones')) ? 'active' : '' }}" href="{{route('retenciones.index')}}">Historial de retenciones</a>
+        <a class="nav-link {{ (request()->is('historiales/retenciones')) ? 'active' : '' }}" href="{{route('historiales.retenciones')}}">Historial de retenciones</a>
       </li>
     @endif
 
     @if(in_array(3, $permisos))
       <li class="nav-item">
-        <a class="nav-link {{ (request()->is('retenciones/importExcel')) ? 'active' : '' }}" href="{{route('retenciones.importExcel')}}">Importar excel</a>
+        <a class="nav-link {{ (request()->is('historiales/pagos')) ? 'active' : '' }}" href="{{route('historiales.pagos')}}">Historial de pagos</a>
       </li>
     @endif
 
@@ -24,7 +24,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-12">
-          @yield('retencionesContent')
+          @yield('historialesContent')
         </div>
       </div>
     </div>

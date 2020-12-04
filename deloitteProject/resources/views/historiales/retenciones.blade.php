@@ -1,11 +1,11 @@
-@extends('retenciones.layout')
-@section('retencionesContent')
+@extends('historiales.layout')
+@section('historialesContent')
 
 
 <div class="row justify-content-center">
     <div class="col-md-12">
         <div class="col-md-6 offset-md-3">
-            <form method="POST" id="cuotasForm" action="{{route('retenciones.ajax')}}">
+            <form method="POST" id="cuotasForm" action="{{route('historiales.ajaxRetenciones')}}">
                 @csrf
                 <div class="form-row">
                     <label class="form-check-label" for="containerMetodoBusqueda">Método de búsqueda:</label>
@@ -70,6 +70,6 @@
     <!-- Modales -->
 </div>
 
-<script src="{{ asset('js/components/retenciones/ajaxFormularioRetenciones.js')}}"></script>
-<script src="{{ asset('js/components/retenciones/filtrosRetenciones.js')}}"></script>
+<script src="{{ asset('js/components/historiales/ajaxRetenciones.js')}}"></script>
+<script src="{{ asset('js/components/historiales/filtrosRetenciones.js')}}"></script>
 @endsection

@@ -6,20 +6,19 @@ use App\Socio;
 use App\Cuota;
 use App\Cumplimiento;
 use App\Pago;
+use App\Exceldata;
+
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 
 use Illuminate\Http\Request;
-//Imports
-use App\Imports\RetencionesImport;
 
-use Maatwebsite\Excel\Facades\Excel;
 //Traer modelos
 use App\Menu_user;
 //Usuario conectado en esta sesion
 use Auth;
 
-class RetencionesController extends Controller
+class HistorialesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -28,31 +27,68 @@ class RetencionesController extends Controller
      */
     public function index()
     {
+        //
+    }
+
+    public function getPagosIndex() {
         $permisos = $this->getPermisos();
-        return view('retenciones.index', compact('permisos'));
+        return view('historiales.pagos', compact('permisos'));
     }
 
-    public function getImportExcel() {
+    public function getRetencionesIndex() {
         $permisos = $this->getPermisos();
-        return view('retenciones.importExcel', compact('permisos'));
+        return view('historiales.retenciones', compact('permisos'));
     }
 
-    public function postImportExcel(Request $request) {
-        Excel::import(new RetencionesImport, $request->file('file'));
-        return redirect('retenciones')->with('success', 'Excel importado exitosamente.');
+    public function ajaxPagos(Request $request) {
+        //Validar campos de datos, si uno falla devuelve error en la vista
+        $request->validate([
+            'mesFecha'=>'required|string|max:7',
+        ]);
+        $fecha = $request->mesFecha;
+
+        $detalles = Pago::where('pagos_fecha', $fecha)
+            ->where('pagos_montoPagar', '>', 0)
+            ->join('cuotas', 'cuotas.id', '=', 'pagos.cuotas_id')
+            ->join('socios', 'socios.id', '=', 'cuotas.socios_id')
+            ->join('cumplimientos', 'cumplimientos.socios_id', '=', 'socios.id')
+            ->where('cumplimientos.cumplimientos_fecha', $fecha)
+            ->get();
+
+        $tabla = collect([]);
+        $socios = Socio::all();
+        foreach ($socios as $socio) {
+            if ($detalles->where('socios_nombre', $socio->socios_nombre)->count() > 0) {
+                $totalPagar = $detalles->where('socios_nombre', $socio->socios_nombre)->sum('pagos_montoPagar');
+                $cantidadCuotas = $detalles->where('socios_nombre', $socio->socios_nombre)->count();
+                $cumplimiento = $detalles->where('socios_nombre', $socio->socios_nombre)->first();
+                $data = collect([
+                    'IDsocio' => $socio->id,
+                    'socio' => $socio->socios_nombre,
+                    'totalPagar' => $totalPagar,
+                    'cumplimiento' => $cumplimiento->cumplimientos_porcentaje,
+                    'cantidadCuotas' => $cantidadCuotas,
+                ]);
+                $tabla = $tabla->push($data);
+            }
+        }
+        $montoTotal = $detalles->sum('pagos_montoPagar');
+
+        return response()->json(['fecha' => $fecha, 'tabla' => $tabla, 'detalles' => $detalles, 'totalPagar' => $montoTotal]);
     }
 
-    public function ajaxCuotas(Request $request) {
+    public function ajaxRetenciones(Request $request) {
         //Validar campos de datos, si uno falla devuelve error en la vista
         $request->validate([
             'radioMetodoBusqueda'=>'required|string|max:255',
         ]);
         if ($request->radioMetodoBusqueda == 'cuota') {
             //Validar fecha
+            $year = $request->cuotaYear;
             if ($request->cuotaMes == 'Agosto') {
-                $fecha = Carbon::createFromFormat('m-Y', '08-2020')->format('Y-m');
+                $fecha = Carbon::createFromFormat('m-Y', '08-' . $year)->format('Y-m');
             } else if ($request->cuotaMes == 'Noviembre') {
-                $fecha = Carbon::createFromFormat('m-Y', '11-2020')->format('Y-m');
+                $fecha = Carbon::createFromFormat('m-Y', '11-' . $year)->format('Y-m');
             }
             //Sacar datos
             $cuotas = Cuota::where('cuotas_fecha', $fecha)

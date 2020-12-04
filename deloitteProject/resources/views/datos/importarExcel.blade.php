@@ -1,10 +1,10 @@
-@extends('retenciones.layout')
-@section('retencionesContent')
+@extends('datos.layout')
+@section('datosContent')
 
 
 <div class="row justify-content-center">
     <div class="col-auto">
-        <form method="POST" id="excel" action="{{route('retenciones.postExcel')}}" enctype="multipart/form-data">
+        <form method="POST" id="excel" action="{{route('datos.postImportarExcel')}}" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
                 <label for="file">Subir excel de datos</label>
