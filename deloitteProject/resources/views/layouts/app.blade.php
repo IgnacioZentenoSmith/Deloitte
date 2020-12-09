@@ -138,6 +138,17 @@
                         </li>
                         @endif
 
+                        @if(in_array(10, $permisos))
+                        <li class="nav-item mx-2 {{ (request()->is('bitacora*')) ? 'active' : '' }}">
+                            <a class="nav-link" href="{{route('bitacora.index')}}">
+                                <span style="font-size: 1.5em;">
+                                    <i class="fas fa-book"></i>
+                                </span><br>
+                                Bitácora
+                            </a>
+                        </li>
+                        @endif
+
                     @endguest
                     </ul>
 
