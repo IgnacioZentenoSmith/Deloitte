@@ -52,6 +52,7 @@ class DatosController extends Controller
 
     public function postEliminarExcel($id) {
         $excel = Exceldata::find($id);
+        app('App\Http\Controllers\BitacoraController')->reportBitacora('DELETE', $excel->getTable(), $excel->id, $excel, null);
         $excel->delete();
         return redirect('datos/eliminarExcel')->with('success', 'Excel eliminado exitosamente');
     }
