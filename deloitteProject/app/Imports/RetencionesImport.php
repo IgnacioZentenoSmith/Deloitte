@@ -39,9 +39,14 @@ class RetencionesImport implements ToCollection, WithHeadingRow, WithEvents
         $meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
                     'Julio','Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 
-        $excelData = Exceldata::firstOrCreate([
-            'exceldata_name' => $excelName,
+        $excelData = Exceldata::where('exceldata_name', $excelName)->first();
+        if ($excelData == null) {
+            $excelData = new Exceldata([
+                'exceldata_name' => $excelName,
             ]);
+            $excelData->save();
+            app('App\Http\Controllers\BitacoraController')->reportBitacora('CREATE', $excelData->getTable(), $excelData->id, null, $excelData);
+        }
 
         $excelNameExplode = explode(' ', $excelName);
         $excelYear = $excelNameExplode[1];
