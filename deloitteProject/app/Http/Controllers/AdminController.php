@@ -80,6 +80,7 @@ class AdminController extends Controller
         ]);
         //Guardar en la base de datos
         $newUser->save();
+        app('App\Http\Controllers\BitacoraController')->reportBitacora('CREATE', $newUser->getTable(), $newUser->id, null, $newUser);
         $newUser->sendEmailVerificationNotification();
 
         //Crear los permisos asociados al rol
@@ -140,6 +141,9 @@ class AdminController extends Controller
 
         //Si ha habido algun cambio, guardar datos
         if ($user->isDirty()) {
+            $postUser = User::find($id);
+            app('App\Http\Controllers\BitacoraController')->reportBitacora('UPDATE', $user->getTable(), $user->id, $user, $postUser);
+
             //Si se ha cambiado el rol
             if ($rol != $user->roles_id) {
                 $this->deletePermisosMenus($user->id);
@@ -161,6 +165,7 @@ class AdminController extends Controller
     public function destroy($id)
     {
         $user = User::find($id);
+        app('App\Http\Controllers\BitacoraController')->reportBitacora('DELETE', $user->getTable(), $user->id, $user, null);
         $user->delete();
         return redirect('admin')->with('success', 'Usuario eliminado exitosamente');
     }
