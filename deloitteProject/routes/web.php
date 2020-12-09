@@ -47,3 +47,7 @@ Route::get('/historiales/pagos', 'HistorialesController@getPagosIndex')->name('h
 Route::get('/historiales/retenciones', 'HistorialesController@getRetencionesIndex')->name('historiales.retenciones')->middleware('auth');
 Route::post('/historiales/ajaxPagos', 'HistorialesController@ajaxPagos')->name('historiales.ajaxPagos')->middleware('auth');
 Route::post('/historiales/ajaxRetenciones', 'HistorialesController@ajaxRetenciones')->name('historiales.ajaxRetenciones')->middleware('auth');
+
+//Rutas de bitacoras
+Route::get('/bitacora/index', 'BitacoraController@index')->name('bitacora.index')->middleware('auth');
+Route::post('/bitacora/ajaxBitacoras', 'BitacoraController@ajaxBitacoras')->name('bitacora.ajaxBitacoras')->middleware('auth');
