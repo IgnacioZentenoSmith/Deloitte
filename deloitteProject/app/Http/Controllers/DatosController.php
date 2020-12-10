@@ -35,22 +35,52 @@ class DatosController extends Controller
 
     public function getImportarExcel() {
         $permisos = $this->getPermisos();
+        $adminPermisos = [12, 13];
+        foreach ($adminPermisos as $adminPermiso) {
+            if (!in_array($adminPermiso, $permisos)) {
+                return redirect('home')->with('error', 'No tiene acceso a este módulo.');
+            }
+        }
+
         return view('datos.importarExcel', compact('permisos'));
     }
 
     public function getEliminarExcel() {
-        $excelData = Exceldata::all();
         $permisos = $this->getPermisos();
+        $adminPermisos = [12, 14];
+        foreach ($adminPermisos as $adminPermiso) {
+            if (!in_array($adminPermiso, $permisos)) {
+                return redirect('home')->with('error', 'No tiene acceso a este módulo.');
+            }
+        }
+
+        $excelData = Exceldata::all();
         return view('datos.eliminarExcel', compact('permisos', 'excelData'));
     }
 
     public function postImportarExcel(Request $request) {
+        $permisos = $this->getPermisos();
+        $adminPermisos = [12, 13];
+        foreach ($adminPermisos as $adminPermiso) {
+            if (!in_array($adminPermiso, $permisos)) {
+                return redirect('home')->with('error', 'No tiene acceso a este módulo.');
+            }
+        }
+
         $importInstance = new RetencionesImport();
         Excel::import($importInstance, $request->file('file'));
         return redirect('datos/importarExcel')->with('success', 'Excel importado exitosamente.');
     }
 
     public function postEliminarExcel($id) {
+        $permisos = $this->getPermisos();
+        $adminPermisos = [12, 14];
+        foreach ($adminPermisos as $adminPermiso) {
+            if (!in_array($adminPermiso, $permisos)) {
+                return redirect('home')->with('error', 'No tiene acceso a este módulo.');
+            }
+        }
+
         $excel = Exceldata::find($id);
         app('App\Http\Controllers\BitacoraController')->reportBitacora('DELETE', $excel->getTable(), $excel->id, $excel, null);
         $excel->delete();
