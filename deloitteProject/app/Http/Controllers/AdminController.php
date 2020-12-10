@@ -35,6 +35,15 @@ class AdminController extends Controller
     public function index()
     {
         $permisos = $this->getPermisos();
+
+        $adminPermisos = [2, 5];
+        foreach ($adminPermisos as $adminPermiso) {
+            if (!in_array($adminPermiso, $permisos)) {
+                return redirect('home')->with('error', 'No tiene acceso a este módulo.');
+            }
+        }
+
+
         $usuarios = User::whereNotNull('email')
         ->join('roles', 'roles.id', '=', 'users.roles_id')
         ->select('users.*', 'roles.roles_nombre')
@@ -50,6 +59,13 @@ class AdminController extends Controller
     public function create()
     {
         $permisos = $this->getPermisos();
+        $adminPermisos = [2, 3, 4];
+        foreach ($adminPermisos as $adminPermiso) {
+            if (!in_array($adminPermiso, $permisos)) {
+                return redirect('home')->with('error', 'No tiene acceso a esta funcionalidad.');
+            }
+        }
+
         $roles = Role::all();
         return view('admin.create', compact('roles', 'permisos'));
     }
@@ -109,6 +125,13 @@ class AdminController extends Controller
     public function edit($id)
     {
         $permisos = $this->getPermisos();
+        $adminPermisos = [2, 5, 6];
+        foreach ($adminPermisos as $adminPermiso) {
+            if (!in_array($adminPermiso, $permisos)) {
+                return redirect('home')->with('error', 'No tiene acceso a esta funcionalidad.');
+            }
+        }
+
         $usuario = User::find($id);
         $roles = Role::all();
         return view('admin.edit', compact('usuario', 'roles', 'permisos'));
@@ -164,14 +187,32 @@ class AdminController extends Controller
      */
     public function destroy($id)
     {
+        $permisos = $this->getPermisos();
         $user = User::find($id);
+        $adminPermisos = [2, 5, 9];
+        foreach ($adminPermisos as $adminPermiso) {
+            if (!in_array($adminPermiso, $permisos)) {
+                return redirect('home')->with('error', 'No tiene acceso a esta funcionalidad.');
+            }
+        }
+
         app('App\Http\Controllers\BitacoraController')->reportBitacora('DELETE', $user->getTable(), $user->id, $user, null);
         $user->delete();
         return redirect('admin')->with('success', 'Usuario eliminado exitosamente');
     }
 
     public function editPermisos($id) {
+
         $permisos = $this->getPermisos();
+
+        $adminPermisos = [2, 5, 7];
+        foreach ($adminPermisos as $adminPermiso) {
+            if (!in_array($adminPermiso, $permisos)) {
+                return redirect('home')->with('error', 'No tiene acceso a esta funcionalidad.');
+            }
+        }
+
+
         $usuario = User::find($id);
         $permisosUsuario = Menu_user::where('users_id', $id)->get();
         $permisosUsuario = $permisosUsuario->pluck('menus_id')->toArray();
@@ -218,7 +259,7 @@ class AdminController extends Controller
             $accesoMenus = [1, 2, 5];
         } else if ($rol->roles_nombre == "Administrador") {
             //Todos los permisos menos eliminar usuarios
-            $accesoMenus = [1, 2, 3, 4, 5, 6, 7, 8];
+            $accesoMenus = [1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
         } else if ($rol->roles_nombre == "Desarrollador") {
             //Todos los permisos
             $accesoMenus = range(1, $menus->count());
@@ -241,6 +282,14 @@ class AdminController extends Controller
     }
 
     public function resendVerification($id) {
+        $permisos = $this->getPermisos();
+        $adminPermisos = [2, 5, 8];
+        foreach ($adminPermisos as $adminPermiso) {
+            if (!in_array($adminPermiso, $permisos)) {
+                return redirect('home')->with('error', 'No tiene acceso a esta funcionalidad.');
+            }
+        }
+
         $user = User::find($id);
         $user->sendEmailVerificationNotification();
         return redirect('admin')->with('success', 'Correo enviado exitosamente.');
