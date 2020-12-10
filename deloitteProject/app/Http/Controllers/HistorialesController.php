@@ -32,11 +32,25 @@ class HistorialesController extends Controller
 
     public function getPagosIndex() {
         $permisos = $this->getPermisos();
+        $adminPermisos = [15, 16];
+        foreach ($adminPermisos as $adminPermiso) {
+            if (!in_array($adminPermiso, $permisos)) {
+                return redirect('home')->with('error', 'No tiene acceso a este módulo.');
+            }
+        }
+
         return view('historiales.pagos', compact('permisos'));
     }
 
     public function getRetencionesIndex() {
         $permisos = $this->getPermisos();
+        $adminPermisos = [15, 17];
+        foreach ($adminPermisos as $adminPermiso) {
+            if (!in_array($adminPermiso, $permisos)) {
+                return redirect('home')->with('error', 'No tiene acceso a este módulo.');
+            }
+        }
+
         return view('historiales.retenciones', compact('permisos'));
     }
 
