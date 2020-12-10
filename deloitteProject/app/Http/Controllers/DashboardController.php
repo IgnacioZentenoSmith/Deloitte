@@ -31,6 +31,13 @@ class DashboardController extends Controller
     public function index()
     {
         $permisos = $this->getPermisos();
+        $adminPermisos = [10, 11];
+        foreach ($adminPermisos as $adminPermiso) {
+            if (!in_array($adminPermiso, $permisos)) {
+                return redirect('home')->with('error', 'No tiene acceso a esta funcionalidad.');
+            }
+        }
+
         $socios = Socio::all();
 
         return view('dashboard.index', compact('permisos', 'socios'));
