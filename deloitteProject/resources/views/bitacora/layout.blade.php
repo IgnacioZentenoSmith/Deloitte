@@ -4,9 +4,13 @@
 <div class="card shadow">
   <div class="card-header">
     <ul class="nav nav-tabs card-header-tabs">
-      <li class="nav-item">
-        <a class="nav-link {{ (request()->is('bitacora*')) ? 'active' : '' }}" href="{{route('bitacora.index')}}">Bitácora de registros</a>
-      </li>
+
+        @if(in_array(19, $permisos))
+        <li class="nav-item">
+            <a class="nav-link {{ (request()->is('bitacora*')) ? 'active' : '' }}" href="{{route('bitacora.index')}}">Bitácora de registros</a>
+        </li>
+        @endif
+
     </ul>
   </div>
 

@@ -9,6 +9,7 @@
                 data-server-sort="false">
                 <thead>
                     <tr>
+                        <th scope="col" data-field="ID" data-sortable="true">ID</th>
                         <th scope="col" data-field="Nombre" data-sortable="true">Nombre</th>
                         <th scope="col" data-field="Email" data-sortable="true">Email</th>
                         <th scope="col" data-field="Role" data-sortable="true">Rol</th>
@@ -20,6 +21,7 @@
                 <tbody>
                     @foreach($usuarios as $usuario)
                     <tr>
+                        <td>{{$usuario['id']}}</td>
                         <td>{{$usuario['name']}}</td>
                         <td>{{$usuario['email']}}</td>
                         <td>{{$usuario['roles_nombre']}}</td>

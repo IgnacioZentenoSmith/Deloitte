@@ -5,13 +5,13 @@
   <div class="card-header">
     <ul class="nav nav-tabs card-header-tabs">
 
-    @if(in_array(5, $permisos))
+    @if(in_array(13, $permisos))
       <li class="nav-item">
         <a class="nav-link {{ (request()->is('datos/importarExcel')) ? 'active' : '' }}" href="{{route('datos.importarExcel')}}">Importar excel de datos</a>
       </li>
     @endif
 
-    @if(in_array(3, $permisos))
+    @if(in_array(14, $permisos))
       <li class="nav-item">
         <a class="nav-link {{ (request()->is('datos/eliminarExcel')) ? 'active' : '' }}" href="{{route('datos.eliminarExcel')}}">Eliminar excel de datos</a>
       </li>

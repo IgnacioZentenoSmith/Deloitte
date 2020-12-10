@@ -104,7 +104,7 @@
                         </li>
                         @endif
 
-                        @if(in_array(2, $permisos))
+                        @if(in_array(12, $permisos))
                         <li class="nav-item mx-2 {{ (request()->is('datos*')) ? 'active' : '' }}">
                             <a class="nav-link" href="{{route('datos.importarExcel')}}">
                                 <span style="font-size: 1.5em;">
@@ -115,7 +115,7 @@
                         </li>
                         @endif
 
-                        @if(in_array(2, $permisos))
+                        @if(in_array(15, $permisos))
                         <li class="nav-item mx-2 {{ (request()->is('historiales*')) ? 'active' : '' }}">
                             <a class="nav-link" href="{{route('historiales.retenciones')}}">
                                 <span style="font-size: 1.5em;">
@@ -138,7 +138,7 @@
                         </li>
                         @endif
 
-                        @if(in_array(10, $permisos))
+                        @if(in_array(18, $permisos))
                         <li class="nav-item mx-2 {{ (request()->is('bitacora*')) ? 'active' : '' }}">
                             <a class="nav-link" href="{{route('bitacora.index')}}">
                                 <span style="font-size: 1.5em;">
