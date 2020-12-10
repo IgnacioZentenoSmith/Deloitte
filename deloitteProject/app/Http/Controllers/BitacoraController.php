@@ -46,6 +46,13 @@ class BitacoraController extends Controller
     {
         $permisos = $this->getPermisos();
 
+        $bitacorasPermisos = [18, 19];
+        foreach ($bitacorasPermisos as $bitacorasPermiso) {
+            if (!in_array($bitacorasPermiso, $permisos)) {
+                return redirect('home')->with('error', 'No tiene acceso a este módulo.');
+            }
+        }
+
         $binnacles = Bitacora::whereNotNull('bitacoras_accion')
         ->join('users', 'users.id', '=', 'bitacoras.users_id')
         ->select('bitacoras.bitacoras_accion', 'bitacoras.bitacoras_tabla', 'bitacoras.users_id', 'users.name as userName')
